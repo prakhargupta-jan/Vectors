@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bhebsite</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="text/javascript">
+    var canvas, ctx, flag = false,
+      prevX = 0,
+      currX = 0,
+      prevY = 0,
+      currY = 0,
+      dot_flag = false;
+
+    var x = "black",
+      y = 2;
+
+    function init() {
+      canvas = document.getElementById('can');
+      ctx = canvas.getContext("2d");
+      w = canvas.width;
+      h = canvas.height;
+
+      canvas.addEventListener("mousemove", function (e) {
+        findxy('move', e)
+      }, false);
+      canvas.addEventListener("mousedown", function (e) {
+        findxy('down', e)
+      }, false);
+      canvas.addEventListener("mouseup", function (e) {
+        findxy('up', e)
+      }, false);
+      canvas.addEventListener("mouseout", function (e) {
+        findxy('out', e)
+      }, false);
+    }
+
+    function color(obj) {
+      switch (obj.id) {
+        case "green":
+          x = "green";
+          break;
+        case "blue":
+          x = "blue";
+          break;
+        case "red":
+          x = "red";
+          break;
+        case "yellow":
+          x = "yellow";
+          break;
+        case "orange":
+          x = "orange";
+          break;
+        case "black":
+          x = "black";
+          break;
+        case "white":
+          x = "white";
+          break;
+      }
+      if (x == "white") y = 14;
+      else y = 2;
+
+    }
+
+    function draw() {
+      ctx.beginPath();
+      ctx.moveTo(prevX, prevY);
+      ctx.lineTo(currX, currY);
+      ctx.strokeStyle = x;
+      ctx.lineWidth = y;
+      ctx.stroke();
+      ctx.closePath();
+    }
+
+    function erase() {
+      var m = confirm("Want to clear");
+      if (m) {
+        ctx.clearRect(0, 0, w, h);
+        document.getElementById("canvasimg").style.display = "none";
+      }
+    }
+
+    function save() {
+      document.getElementById("canvasimg").style.border = "2px solid";
+      var dataURL = canvas.toDataURL();
+      document.getElementById("canvasimg").src = dataURL;
+      document.getElementById("canvasimg").style.display = "inline";
+    }
+
+    function findxy(res, e) {
+      if (res == 'down') {
+        prevX = currX;
+        prevY = currY;
+        currX = e.clientX - canvas.offsetLeft;
+        currY = e.clientY - canvas.offsetTop;
+
+        flag = true;
+        dot_flag = true;
+        if (dot_flag) {
+          ctx.beginPath();
+          ctx.fillStyle = x;
+          ctx.fillRect(currX, currY, 2, 2);
+          ctx.closePath();
+          dot_flag = false;
+        }
+      }
+      if (res == 'up' || res == "out") {
+        flag = false;
+      }
+      if (res == 'move') {
+        if (flag) {
+          prevX = currX;
+          prevY = currY;
+          currX = e.clientX - canvas.offsetLeft;
+          currY = e.clientY - canvas.offsetTop;
+          draw();
+        }
+      }
+    }
+  </script>
+
+</head>
+
+<body onload="init()">
+  <header id="header">
+    <h1 class="Bhebsite">GAMEROUNDS</h1>
+  </header>
+  <nav>
+    <div class="navEle">Space Impact</div>
+    <div class="navEle">Super Mario</div>
+    <div class="navEle" id="draw">Drawing Canvas</div>
+    <div class="navEle">Articles</div>
+    <div class="navEle">Credit</div>
+    <div class="navEle"> Another game</div>
+  </nav>
+  
+  <section id="pad"><br>
+  <br>
+    <canvas id="can" width="1200" height="400" style="position:relative;top:10%;left:10%;border:2px solid;"></canvas>
+    <div style="position:relative;">Choose Color</div>
+    <div style="position:relative;width:10px;height:10px;background:green;" id="green" onclick="color(this)"></div>
+    <div style="position:relative;width:10px;height:10px;background:blue;" id="blue" onclick="color(this)"></div>
+    <div style="position:relative;width:10px;height:10px;background:red;" id="red" onclick="color(this)"></div>
+    <div style="position:relative;width:10px;height:10px;background:yellow;" id="yellow" onclick="color(this)"></div>
+    <div style="position:relative;width:10px;height:10px;background:orange;" id="orange" onclick="color(this)"></div>
+    <div style="position:relative;width:10px;height:10px;background:black;" id="black" onclick="color(this)"></div>
+    <div style="position:relative;">Eraser</div>
+    <div style="position:relative;width:15px;height:15px;background:white;border:2px solid;" id="white"
+      onclick="color(this)"></div>
+    <img id="canvasimg" style="position:relative;top:10%;left:52%;display:none;">
+    <input type="button" value="save" id="btn" size="30" onclick="save()" style="position:relative">
+    <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:relative">
+  </section>
+  <section id="article">
+    <h2>Video gaming can benefit mental health, find Oxford academics</h2>
+    <p>
+      Playing video games can be good for your mental health, a study from Oxford University has suggested, following a breakthrough collaboration in which academics at the university worked with actual gameplay data for the first time. <br>
+
+The study, which focused on players of Nintendo’s springtime craze Animal Crossing, as well as EA’s shooter Plants vs. Zombies: Battle for Neighborville, found that people who played more games tended to report greater “wellbeing”, casting further doubt on reports that video gaming can harm mental health.<br>
+
+Crucially, the study was one of the first to be done using actual play-time data. Thanks to the internet-connected nature of the games, the Oxford University team was able to link up psychological questionnaires with true records of time spent playing games. Previous studies had tended to focus on self-reported time playing, which is, the study found, only weakly correlated with reality.<br>
+'It's uniting people': why 11 million are playing Animal Crossing: New Horizons
+Read more
+
+“This is about bringing games into the fold of psychology research that’s not a dumpster fire,” said Andrew Przybylski, the lead researcher on the project. “This lets us explain and understand games as a leisure activity.<br>
+
+“It was a quest to figure out is data collected by gaming companies vaguely useful for academic and health policy research?”
+
+Przybylski said at the start of the project he was surprised by how little data gaming companies actually had about their players – but also by how little hard data had been used by previous studies into the potential harms or benefits of gaming. The study, he said, “shows that if you play four hours a day of Animal Crossing, you’re a much happier human being, but that’s only interesting because all of the other research before this is done so badly.”<br>
+
+The researchers are keen to emphasise that the findings are not a carte blanche pass for games. “I’m very confident that if the research goes on, we will learn about the things that we think of as toxic in games,” Przybylski said, “and we will have evidence for those things as well.”<br>
+
+The research only studied two all-ages games, and other modes of play could potentially be less wholesome. Similarly, the attitude one takes to gaming could affect the mental impact it has. The paper contrasts “intrinsic” enjoyment – playing a game because it’s fun – with “extrinsic”, more concerning behaviours, such as feeling bullied into playing, either by other players or the game mechanics themselves.<br>
+
+The researchers hope the study will introduce a higher standard of evidence to discussions about the concept of video game addiction, or digital harms in general. “You have really respected, important bodies, like the World Health Organization and the NHS, allocating attention and resources to something that there’s literally no good data on. And it’s shocking to me, the reputational risk that everyone’s taking, given the stakes. For them to turn around and be like, ‘hey, this thing that 95% of teenagers do? Yeah, that’s addictive, no, we don’t have any data,’ that makes no sense,” Przybylski said.<br>
+    </p>
+  </section>
+  <script src="index.js"></script>
+</body>
+
+</html>
